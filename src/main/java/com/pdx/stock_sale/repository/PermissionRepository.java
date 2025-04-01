@@ -4,4 +4,5 @@ import com.pdx.stock_sale.model.PermissionEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PermissionRepository extends JpaRepository<PermissionEntity,Integer> {
+    Boolean existsByNameAndCategory(String name, String category);
 }

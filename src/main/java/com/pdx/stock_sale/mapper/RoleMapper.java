@@ -6,6 +6,7 @@ import com.pdx.stock_sale.dto.RoleResponseDTO;
 import com.pdx.stock_sale.model.PermissionEntity;
 import com.pdx.stock_sale.model.RoleEntity;
 import com.pdx.stock_sale.repository.PermissionRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -16,9 +17,10 @@ import java.util.stream.Collectors;
 
 @Component
 public class RoleMapper {
-
-    private PermissionRepository permissionRepository;
-    private PermissionMapper permissionMapper;
+    @Autowired
+    PermissionRepository permissionRepository;
+    @Autowired
+    PermissionMapper permissionMapper;
 
     public RoleMapper(PermissionRepository permissionRepository, PermissionMapper permissionMapper) {
         this.permissionRepository = permissionRepository;
@@ -38,22 +40,12 @@ public class RoleMapper {
         Optional.ofNullable(data.getUpdatedAt()).ifPresent(updatedAtStr -> dto.setUpdatedAt(String.valueOf(updatedAtStr)));
 
         Set<PermissionResponseDTO> permissionResponseDTOSet = new HashSet<>();
-        System.out.println("================"+data.getPermissions().stream().count());
         if (data.getPermissions() != null) {
             permissionResponseDTOSet.addAll(data.getPermissions().stream()
                     .map(permissionMapper::toDTO)
                     .collect(Collectors.toSet()));
         }
-
         dto.setPermissions(permissionResponseDTOSet);
-//
-//        Set<PermissionResponseDTO> permissionResponseDTOSet = new HashSet<>();
-//        if(data.getPermissions() !=null){
-//            for(PermissionEntity joinEntity : data.getPermissions()){
-//                permissionResponseDTOSet.add(permissionMapper.toDTO(joinEntity));
-//            }
-//        }
-//        dto.setPermissions(permissionResponseDTOSet);
         return dto;
     }
 

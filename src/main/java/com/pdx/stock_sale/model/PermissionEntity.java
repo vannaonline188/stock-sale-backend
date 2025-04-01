@@ -2,14 +2,13 @@ package com.pdx.stock_sale.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -43,7 +42,8 @@ public class PermissionEntity {
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-    @JsonBackReference
+
     @ManyToMany(mappedBy = "permissions")
+    @JsonBackReference
     private Set<RoleEntity> roles;
 }

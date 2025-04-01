@@ -1,15 +1,15 @@
 package com.pdx.stock_sale.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -38,8 +38,11 @@ public class RoleEntity {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @JsonManagedReference
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "roles")
+    @JsonBackReference
+    private Set<UserEntity> users;
+
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "mas_role_permission",
             joinColumns = {
                     @JoinColumn(name = "role_id",referencedColumnName = "id")
@@ -48,5 +51,7 @@ public class RoleEntity {
                     @JoinColumn(name = "permission_id",referencedColumnName = "id")
             }
     )
+    @JsonManagedReference
     private Set<PermissionEntity> permissions;
+
 }

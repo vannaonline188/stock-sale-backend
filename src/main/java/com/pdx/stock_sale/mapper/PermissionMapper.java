@@ -1,5 +1,6 @@
 package com.pdx.stock_sale.mapper;
 
+import com.pdx.stock_sale.dto.PermissionRequestDTO;
 import com.pdx.stock_sale.dto.PermissionResponseDTO;
 import com.pdx.stock_sale.dto.RoleResponseDTO;
 import com.pdx.stock_sale.model.PermissionEntity;
@@ -23,5 +24,13 @@ public class PermissionMapper {
         Optional.ofNullable(data.getUpdatedBy()).ifPresent(updatedByStr -> dto.setUpdatedBy(String.valueOf(updatedByStr)));
         Optional.ofNullable(data.getUpdatedAt()).ifPresent(updatedAtStr -> dto.setUpdatedAt(String.valueOf(updatedAtStr)));
         return dto;
+    }
+    public PermissionEntity toModel(PermissionRequestDTO dto){
+        PermissionEntity data = new PermissionEntity();
+        data.setName(dto.getName());
+        data.setCategory(dto.getCategory());
+        data.setDescription(dto.getDescription());
+        data.setStatus(Boolean.parseBoolean(dto.getStatus()));
+        return data;
     }
 }
